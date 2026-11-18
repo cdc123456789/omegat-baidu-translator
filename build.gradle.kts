@@ -10,7 +10,7 @@ version = "1.0.0"
 
 omegat {
     version = "6.1.1"
-    pluginClass = "org.cdc.baidu.translator.BaiduTranslator"
+    pluginClass = "org.cdc.PluginMain"
 }
 
 dependencies {
@@ -18,6 +18,8 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.21.1")
 
     testImplementation("junit:junit:4.13.1")
+    packIntoJar("net.bytebuddy:byte-buddy:1.14.17")
+    implementation("org.netbeans.api:org-openide-awt:RELEASE130")
 }
 
 tasks.withType<JavaCompile>().configureEach {

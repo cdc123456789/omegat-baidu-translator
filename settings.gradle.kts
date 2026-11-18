@@ -1,1 +1,1 @@
-rootProject.name = "omegat-baidu-translator"
+rootProject.name = "omegat-translators"

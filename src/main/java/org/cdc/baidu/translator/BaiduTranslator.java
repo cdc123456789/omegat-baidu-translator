@@ -17,7 +17,6 @@ import java.util.Objects;
 
 import javax.swing.SwingUtilities;
 
-import org.omegat.core.Core;
 import org.omegat.core.machinetranslators.BaseCachedTranslate;
 import org.omegat.core.machinetranslators.MachineTranslateError;
 import org.omegat.util.Language;
@@ -26,7 +25,7 @@ import org.omegat.util.Language;
  * OmegaT machine translation connector for Baidu Translate.
  * <p>
  * This class is both the plugin entry point and the MT connector. OmegaT calls
- * {@link #loadPlugins()} during startup; that method registers this class with
+ * during startup; that method registers this class with
  * the machine translation manager, which then creates an instance through its
  * public no-argument constructor.
  * <p>
@@ -57,20 +56,6 @@ public class BaiduTranslator extends BaseCachedTranslate {
 
     BaiduTranslator(BaiduTranslateClient client) {
         this.client = Objects.requireNonNull(client, "client");
-    }
-
-    /**
-     * OmegaT plugin entry point. Called before the GUI is initialized.
-     */
-    public static void loadPlugins() {
-        Core.registerMachineTranslationClass(BaiduTranslator.class);
-    }
-
-    /**
-     * OmegaT plugin unload hook. The connector has no global resources.
-     */
-    public static void unloadPlugins() {
-        // Nothing to release.
     }
 
     @Override
