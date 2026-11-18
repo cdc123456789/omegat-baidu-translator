@@ -1,73 +1,73 @@
-# OmegaT plugin development skeleton
+# OmegaT Baidu Translate plugin
 
-## How to get skeleton into your project
+An [OmegaT](https://omegat.org/) machine translation connector for
+[Baidu Translate](https://fanyi-api.baidu.com/) (百度翻译).
 
-It is recommend to use `Use this template` button on upper-right side of github project page,
-to create your project repository.
+## Features
 
-![](https://docs.github.com/assets/images/help/repository/use-this-template-button.png)
+- Uses the Baidu general text translation API
+  (`https://fanyi-api.baidu.com/api/trans/vip/translate`).
+- APP ID and secret key are stored through OmegaT's credential manager, so they
+  can be protected with the OmegaT master password.
+- Supports the "store credentials for this session only" option.
+- Language mapping for all language pairs documented by Baidu (including
+  `jp`, `kor`, `fra`, `spa`, `cht`, etc.).
+- Caches translations through OmegaT's standard MT cache layer.
+- Handles multi-line segments by joining Baidu's line-based results.
+- Truncates queries longer than Baidu's 6000-byte request limit.
+- Uses Jackson for JSON parsing (provided by OmegaT's bundled libraries).
 
-## Gradle DSL
+## Requirements
 
-There are two examples in skeleton; Groovy DSL(`build.gradle`) and Kotlin DSL(`build.gradle.kts`)
-When you prefer Groovy DSL, please rename `build.gradle.disabled` to `build.gradle` and remove `build.gradle.kts`.
+- OmegaT 6.1.1 or later.
+- Java 11 or later (the plugin is compiled for Java 11).
+- A Baidu Translate API account with an APP ID and secret key. Apply at
+  <https://fanyi-api.baidu.com/>.
 
-## Where you should change?
+## Build
 
-Here is a hint for modifications.
+```shell
+./gradlew build
+```
 
-- Source code: `src/main/<lang>/*`
-- Test code: `src/test/<lang>/*` and `src/test/resources/*`
-- Project.name in `settings.gradle`
-- Properties: description, title, website and category
-- Plugin Main class name in `build.gradle.kts`.
-- Coding rules: `config/checkstyle/checkstyle.xml`
+The plugin jar is written to `build/libs/` and the distribution zip to
+`build/distributions/`.
 
-## Build system
+## Install
 
-This skeleton use a Gradle build system as same as OmegaT version 4.3.0 and later.
+1. Copy the plugin jar (or the jar from the distribution zip) to the OmegaT
+   plugins directory:
+   - Windows: `%APPDATA%\OmegaT\plugins\`
+   - Linux/macOS: `~/.omegat/plugins/`
+   - Or the `plugins` directory of the OmegaT installation.
+2. Restart OmegaT.
 
-## Dependency
+## Configure
 
-OmegaT and dependencies are located on remote maven repositories.
-It is necessary to connect the internet to compile your project.
+1. Open **Options > Machine Translation**.
+2. Select **Baidu Translate** and click **Configure**.
+3. Enter the **APP ID** and **secret key** from the Baidu Translate console.
+4. Confirm with **OK**, then enable **Baidu Translate** in the machine
+   translation menu or options.
 
-Current skeleton example refers OmegaT 5.2.0.
+## Development
 
-All complex configurations to refer OmegaT core are handled by
-`gradle-omegat-plugin`.
+Source layout:
 
-## FatJar(ShadowJar)
+- `BaiduTranslator` — plugin entry point and MT connector.
+- `BaiduTranslateClient` — HTTP request, signature and Jackson response
+  handling.
+- `BaiduLanguages` — OmegaT to Baidu language code mapping.
+- `BaiduTranslatorConfigDialog` — settings dialog based on OmegaT's
+  `MTConfigDialog`.
 
-OmegaT considered a plugin is a single jar file. If it is depend on some libraries, 
-you should ship your plugin with these libraries.
-It is why generating a FatJar, a single jar file with all runtime dependencies
-which is not provided with OmegaT.
+Run the unit tests with:
 
-`gradle-omegat-plugin` offers special gradle configuration `ParckIntoJar`.
-When specified it, gradle will generate a proper FatJar for you.
-
-
-## Where is a built artifact?
-
-You can find distribution files in `build/distributions/*.zip`.
-Also you can find jar files at `build/libs/`
-
-## Test report
-
-You will find a test results report at `build/reports/` and can show it with your favorite web browser.
-
-## Github actions
-
-There is an example script to use Github Actions for CI/CD.
-
-
-## Installation
-
-You can get a plugin jar file from zip distribution file.
-OmegaT plugin should be placed in `$HOME/.omegat/plugin` or `C:\Program Files\OmegaT\plugin`
-depending on your operating system.
+```shell
+./gradlew test
+```
 
 ## License
 
-This project is distributed under the GNU general public license version 3 or later.
+This plugin is distributed under the GNU General Public License version 3 or
+later. See `COPYING`.

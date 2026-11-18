@@ -2,33 +2,28 @@ plugins {
     java
     // groovy
     // kotlin("jvm") version "1.3.72"
-    checkstyle
     distribution
-    maven
-    id("org.omegat.gradle") version "1.4.2"
+    id("org.omegat.gradle") version "2.0.0-rc2"
 }
 
-version = "0.0.1"
+version = "1.0.0"
 
 omegat {
-    version = "5.4.1"
-    pluginClass = "org.omegat.filters2.text.dokuwiki.DokuWikiFilter"
+    version = "6.1.1"
+    pluginClass = "org.cdc.baidu.translator.BaiduTranslator"
 }
 
 dependencies {
-    packIntoJar("org.slf4j:slf4j-api:1.7.21")
-    implementation("commons-io:commons-io:2.5")
-    implementation("commons-lang:commons-lang:2.6")
-    implementation("org.slf4j:slf4j-nop:1.7.21")
-    testImplementation("junit:junit:4.12")
-    testImplementation("xmlunit:xmlunit:1.6")
-    testImplementation("org.madlonkay.supertmxmerge:supertmxmerge:2.0.1")
-    testImplementation("com.alibaba:fastjson:1.2.17")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.21.1")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.21.1")
+
+    testImplementation("junit:junit:4.13.1")
 }
 
-checkstyle {
-    isIgnoreFailures = true
-    toolVersion = "7.1"
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+    // OmegaT 6.1.1 is compiled for Java 11 and may be run with a JRE 11.
+    options.release.set(11)
 }
 
 distributions {
